@@ -2,8 +2,6 @@
 
 大鯨魚 - 裡面有輕量版的OS，因此run一個docker container就是跑起來一個作業系統，從此以後輕易跨平台了
 
-重要名詞 : 
-
 ## Docker Architecture
 
 1. Docker daemon - 兼通Docker API request並管理docker物件(如images, containers, networkds, volumes, 並且可以和其他docker daemon溝通)
