@@ -17,9 +17,12 @@
 12.  `docker volume ls` - list docker volume on your local file system.
 13.  `docker volume create --name volume_name` - create a volume so that you can get the data from the container.
 
-14. management - `docker images | grep "<none>" | awk '{print $3}' | xargs docker rmi` - 找出 tags 為 none， print出前3個，把他砍了
+14. **management - `docker images | grep "<none>" | awk '{print $3}' | xargs docker rmi` - 找出 tags 為 none， print出前3個，把他砍了**，用這個比較好，不會錯殺無辜
 15. management - `docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm` - 跳出幾週前的，把他砍了，要注意不要砍到要用的
 16. `docker rmi $(docker images -q -f "dangling=true")` - 刪除虛懸的 images - 沒有 repo，沒有 tag，存粹是 build 的產物
+17. `docker image prune -a` - prune all images (danguous)
+18. `docker image prune` - prune only dangling
+
 
 [some commands](https://hackmd.io/@titangene/rk3zjKVIz?fbclid=IwY2xjawEWgMdleHRuA2FlbQIxMAABHQwImw5me90_UmMGdGqVtC-SFfF_ejva3UXvgxoWyq2BQRSz75axBJPBVw_aem_0wPOYivMK-2hDDywuG2cWA)
 

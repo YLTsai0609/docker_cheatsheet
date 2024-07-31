@@ -55,6 +55,23 @@ Services讓你可以在多個docker demon之間規模化的使用container，這
 讓Container內的資料可以和本地端的檔案系統互通的一種方式
 先create在使用的稱作 `name volume` ，直接run起來接著的稱作 `host volume` ，透過volume，可以讓不同的container丟檔案到本地檔案系統，並且之後給另外的container使用
 
+## Resource Status
+
+[找回那些被 Docker 吃掉的磁碟空間](https://medium.com/starbugs/%E6%89%BE%E5%9B%9E%E9%82%A3%E4%BA%9B%E8%A2%AB-docker-%E5%90%83%E6%8E%89%E7%9A%84%E7%A3%81%E7%A2%9F%E7%A9%BA%E9%96%93-6912cdb24dc0)
+
+Docker Image, Container, Volume, Network 都稱做 docker resource， resource 有所謂的狀態
+
+
+used : 正在被 container 使用
+ununsed : 完全沒有被 container 使用到
+dangling : 失效的 image，永遠不會被使用
+
+used <--> ununsed : 至少被一個 Container 使用
+
+dangling : 只存在在 images
+* 當我們重複編譯同一個 tag name 的 docker image，那麼第一次產生的 docker image 在第二次編譯結束時就會進入 dangling 狀態
+* 常發生的就是 cache，可能是因為 build failed 或其他原因產生
+
 ## Trouble Shooting
 
 Q1 : Docker如果要取用GPU資源，要怎麼和GPU進行溝通!? 
