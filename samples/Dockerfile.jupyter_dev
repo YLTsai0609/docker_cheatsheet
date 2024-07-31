@@ -1,0 +1,48 @@
+FROM cimg/python:3.8
+RUN yum clean all && \
+    yum makecache && \
+    yum install -y \
+    nano \
+    git \
+    which \
+    wget \
+    htop \
+    tree \
+    epel-release && \
+    yum install -y \
+    the_silver_searcher \
+    zsh \
+    python3-pip \
+    vim && \
+    yum clean all
+
+# 設置 oh-my-zsh
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+
+# 安裝 zsh-autosuggestions
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+
+# 設置 .zshrc 配置文件以自動加載 zsh-autosuggestions 並設置 pip3 連結到 pip
+RUN echo "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc && \
+    echo "alias pip='pip3'" >> ~/.zshrc
+
+# 安裝 jupyter notebook
+RUN pip3 install jupyter
+
+# 設置 Jupyter Notebook 密碼
+RUN python3 -c "from notebook.auth import passwd; print(passwd('1234'))" > /root/.jupyter/password.txt && \
+    cat /root/.jupyter/password.txt && \
+    mkdir -p /root/.jupyter && \
+    echo "c.NotebookApp.password = '$(cat /root/.jupyter/password.txt)'" >> /root/.jupyter/jupyter_notebook_config.py && \
+    rm /root/.jupyter/password.txt
+
+# 生成 Jupyter Notebook 配置文件
+RUN jupyter notebook --generate-config && \
+    echo "c.NotebookApp.ip = '0.0.0.0'" >> /root/.jupyter/jupyter_notebook_config.py && \
+    echo "c.NotebookApp.open_browser = False" >> /root/.jupyter/jupyter_notebook_config.py
+
+# 設置 zsh 為默認 Shell
+RUN chsh -s /bin/zsh
+
+# 最終進入 Zsh 交互式 Shell
+CMD ["zsh"]
