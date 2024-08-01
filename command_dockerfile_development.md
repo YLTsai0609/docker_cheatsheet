@@ -34,5 +34,7 @@
 
 3. 流程 -- 撰寫 Dockerfile --> docker build (image) --> docker run (image as a container)
 
-4. DOckerfile 如果作為開發環境，每次 ssh 會建立一個 fingerprint，如果 container 砍掉重啟，host/port 都相同，會發生 fingerprint 不一致，進而導致登入不進去
+4. Dockerfile 如果作為開發環境，每次 ssh 會建立一個 fingerprint，如果 container 砍掉重啟，host/port 都相同，會發生 fingerprint 不一致，進而導致登入不進去
    1. 砍 know_host 相同 host/port，在重新登入 (TODO: 自動化?)
+
+5. 事實上， `docker exec container_name command` - 會把 stdout 吐回 vm 上
